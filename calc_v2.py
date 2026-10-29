@@ -28,7 +28,7 @@ def irr(flows):
 aa = lambda m: (1 + m) ** 12 - 1
 liq = lambda bruta_am, ir=0.15: bruta_am * (1 - ir)
 
-# =========================== CASO A (Thiago) ===========================
+# =========================== CASO A (Cliente A) ===========================
 CARTA, PRAZO, C = 3_576_047.49, 169, 12
 PRE, POS = 14_140.20, 13_391.09
 LANCE, CRED = 1_000_000.00, 2_503_233.24
@@ -101,7 +101,7 @@ caseA = {
     "poe_rendimento_3mi_1.1": 3_000_000 * 0.011,
 }
 
-# =========================== CASO B (Gabriel) ===========================
+# =========================== CASO B (Cliente B) ===========================
 # Numeros da propria resposta do Poe (cenarios A2 e B)
 A2 = {"lance": 966_000.0, "pre": 23_543.0, "n_pre": 2, "sobra": 17_855.0, "pos": 9_736.48, "n_pos": 76}
 A1 = {"pos": 4_284.76, "n_pos": 174}
@@ -137,7 +137,7 @@ caseB = {"poe_A1_dashboard": poe_dash_A1, "poe_A1_aba": poe_aba_A1,
          "diferencial_A2_vs_B_mes192": difB}
 
 out = {"casoA": caseA, "casoB": caseB}
-json.dump(out, open("/home/claude/projeto/resultados_v2.json", "w"), indent=2)
+json.dump(out, open("resultados_v2.json", "w"), indent=2)
 
 # =========================== FIGURAS ===========================
 plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 10})
@@ -158,7 +158,7 @@ for sp in ["top", "right"]:
     ax.spines[sp].set_visible(False)
 ax.legend(frameon=False, fontsize=8, loc="upper left")
 plt.tight_layout()
-plt.savefig("/home/claude/projeto/v2_fig_diferencial_A.png")
+plt.savefig("v2_fig_diferencial_A.png")
 plt.close()
 
 sB = diferencial_B(rB["cdi_liq"])
@@ -175,7 +175,7 @@ for sp in ["top", "right"]:
     ax.spines[sp].set_visible(False)
 ax.legend(frameon=False, fontsize=8, loc="lower left")
 plt.tight_layout()
-plt.savefig("/home/claude/projeto/v2_fig_diferencial_B.png")
+plt.savefig("v2_fig_diferencial_B.png")
 plt.close()
 
 print(json.dumps(out, indent=2, default=float))
@@ -196,7 +196,7 @@ pos = {
     "SAC 360m, CDI, sem aluguel": diferencial_A(rC, aluguel=0)[169] + saldo169,
     "SAC em 169m, CDI líquido": difA_sac_n(rC, 169),
 }
-json.dump({k: v for k, v in pos.items()}, open("/home/claude/projeto/posicao169.json", "w"), indent=2)
+json.dump({k: v for k, v in pos.items()}, open("posicao169.json", "w"), indent=2)
 fig, ax = plt.subplots(figsize=(7.2, 3.3), dpi=200)
 labels = ["SAC 30 anos\nCDI líquido", "SAC 30 anos\n1,1% a.m. líquido", "SAC 30 anos\nsem aluguel", "SAC em 169 meses\nCDI líquido"]
 vals = [v / 1e3 for v in pos.values()]
@@ -209,6 +209,6 @@ ax.set_ylim(0, max(vals) * 1.2)
 for sp in ["top", "right"]:
     ax.spines[sp].set_visible(False)
 plt.tight_layout()
-plt.savefig("/home/claude/projeto/v2_fig_diferencial_A.png")
+plt.savefig("v2_fig_diferencial_A.png")
 plt.close()
 print(pos)
